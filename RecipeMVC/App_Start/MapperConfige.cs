@@ -14,8 +14,13 @@ namespace RecipeMVC.App_Start
             {
                 AllowNullCollections = true;
 
-                CreateMap<MenuViewModel, MenuDTO>().ReverseMap();
-            }
+                CreateMap<RecipeViewModel, RecipeDTO>().ReverseMap().
+           
+               ForMember(vm => vm.Description, map => map.MapFrom(m => m.Description)).
+               ForMember(vm => vm.Id, map => map.MapFrom(m => m.Id)).
+               ForMember(vm => vm.CreatedDate, map => map.MapFrom(m => m.CreatedDate))
+               ;
+        }
         }
     
 }

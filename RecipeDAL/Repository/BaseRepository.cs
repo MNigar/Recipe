@@ -21,17 +21,22 @@ namespace RecipeDAL.Repository
         where TContext : DbContext
     {
         private TContext ctx;
-       // private readonly IMapper _mapper;
-       //public BaseRepository(IMapper mapper)
-       // {
-       //     _mapper = mapper;
-       // }
+        private readonly IMapper _mapper;
+        public BaseRepository(IMapper mapper)
+        {
+            _mapper = mapper;
+        }
+
         public virtual ActionResponse<IQueryable<TDto>> GetAll()
         {
+            
             try
             {
                 ctx = Activator.CreateInstance<TContext>();
-                var entities = ctx.Set<TDao>().ProjectTo<TDto>(Mapper.Configuration);
+                var entities = ctx.Set<TDao>().ProjectTo<TDto>(_mapper.ConfigurationProvider);
+                var list = entities.ToList();
+                //var entitiess = ctx.Set<TDao>();
+                //var t = _mapper.Map<IQueryable<TDto>>(entitiess);
                 return ActionResponse<IQueryable<TDto>>.Succeed(entities);
                 
             }
@@ -48,7 +53,7 @@ namespace RecipeDAL.Repository
             {
                 ctx = Activator.CreateInstance<TContext>();
                 var dao = ctx.Set<TDao>().FirstOrDefault(e => e.Id == id);
-                var dto = Mapper.Map<TDto>(dao);
+                var dto = _mapper.Map<TDto>(dao);
                 return ActionResponse<TDto>.Succeed(dto);
             }
             catch (Exception ex)
@@ -77,9 +82,11 @@ namespace RecipeDAL.Repository
             try
             {
                 ctx = Activator.CreateInstance<TContext>();
-                var model = Mapper.Map<TDao>(obj);
-           
-                //model.Id = 
+                var model = _mapper.Map<TDao>(obj);
+                //int i = 8;
+                ////var id= ctx.Set<TDao>().OrderByDescending(m => m.Id).FirstOrDefault().Id;
+                //model.Id = i++;
+
                 model.CreatedUserId = userId;
                 model.CreatedDate = DateTime.Now;
                 model.ModifiedDate = null;
@@ -107,7 +114,7 @@ namespace RecipeDAL.Repository
             try
             {
                 ctx = Activator.CreateInstance<TContext>();
-                var model = Mapper.Map<TDao>(obj);
+                var model = _mapper.Map<TDao>(obj);
                 using (var transaction = ctx.Database.BeginTransaction())
                 {
                     var dbModel = ctx.Set<TDao>().FirstOrDefault(x => x.Id == model.Id);

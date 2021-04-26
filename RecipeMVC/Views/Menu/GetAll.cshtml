@@ -1,4 +1,4 @@
-﻿@model IEnumerable<RecipeMVC.Models.MenuViewModel>
+﻿@model IEnumerable<RecipeMVC.Models.RecipeViewModel>
 
 @{
     ViewBag.Title = "GetAll";
@@ -15,7 +15,7 @@
             @Html.DisplayNameFor(model => model.CreatedDate)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Icon)
+            @*@Html.DisplayNameFor(model => model.Icon)*@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Description)
@@ -29,7 +29,7 @@
             @Html.DisplayFor(modelItem => item.CreatedDate)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Icon)
+            @*@Html.DisplayFor(modelItem => item.Icon)*@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Description)

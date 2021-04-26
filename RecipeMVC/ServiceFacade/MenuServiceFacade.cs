@@ -8,7 +8,7 @@ using System.Web;
 
 namespace RecipeMVC.ServiceFacade
 {
-    public class MenuServiceFacade : BaseServiceFacade, IBaseServiceFacade<MenuDTO>
+    public class MenuServiceFacade : BaseServiceFacade, IBaseServiceFacade<RecipeDTO>
     {
         private readonly MenuService _service;
 
@@ -17,21 +17,21 @@ namespace RecipeMVC.ServiceFacade
             _service = service;
         }
 
-        public IQueryable<MenuDTO> GetAll()
+        public IQueryable<RecipeDTO> GetAll()
         {
             var all = _service.GetAll();
             if (all.IsSucceed)
                 return all.Data;
-            return Enumerable.Empty<MenuDTO>().AsQueryable();
+            return Enumerable.Empty<RecipeDTO>().AsQueryable();
 
         }
 
-        public MenuDTO GetById(int id)
+        public RecipeDTO GetById(int id)
         {
             var all = _service.GetAll();
             if (all.IsSucceed)
                 return all.Data.FirstOrDefault(x => x.Id == id);
-            return new MenuDTO();
+            return new RecipeDTO();
         }
 
         public SiteResponse Remove(int id, int userId = 0)
@@ -42,7 +42,7 @@ namespace RecipeMVC.ServiceFacade
             return response;
         }
 
-        public SiteResponse Save(MenuDTO obj, int userId = 0)
+        public SiteResponse Save(RecipeDTO obj, int userId = 0)
         {
             var response = new SiteResponse();
             var command = _service.Save(obj);

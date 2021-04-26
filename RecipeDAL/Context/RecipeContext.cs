@@ -10,9 +10,13 @@ namespace RecipeDAL.Context
 {
   public  class RecipeContext : DbContext
     {
-        public RecipeContext() : base("Recipe") { }
+        public  RecipeContext() : base("Recipe") { }
 
-        public DbSet<MenuDAO> Features { get; set; }
+        public virtual DbSet<RecipeDAO> Recipes { get; set; }
+        public virtual DbSet<UserDAO> Users { get; set; }
+        public virtual DbSet<CategoryDAO> Categories { get; set; }
+
+        //public System.Data.Entity.DbSet<RecipeMVC.Models.MenuViewModel> MenuViewModels { get; set; }
     }
 
 }

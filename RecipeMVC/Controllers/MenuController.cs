@@ -7,35 +7,50 @@ using RecipeMVC.ServiceFacade;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Unity;
 
 namespace RecipeMVC.Controllers
 {
     public class MenuController : Controller
     {
         private readonly MenuServiceFacade _service;
-        private readonly MenuRepository _aaaa;
-        //public MenuController(MenuServiceFacade service)
-        //{
-        //    _service = service;
-        //}
-
-        public MenuController()
+        private readonly IMapper _mapper;
+        public MenuController(MenuServiceFacade service,IMapper mapper)
         {
-            var container = new LightInject.ServiceContainer();
-
-            _aaaa = container.GetInstance<IMenuRepository>();
+            _service = service;
+            _mapper = mapper;
         }
+
+        //public MenuController()
+        //{
+        //    var container = new LightInject.ServiceContainer();
+
+        //    _aaaa = container.GetInstance<IMenuRepository>();
+        //}
 
         // GET: Menu
         public ActionResult Form(int id)
         {
             var dto = _service.GetById(id);
-            var viewModel = Mapper.Map<MenuViewModel>(dto);
+            var viewModel = _mapper.Map<RecipeViewModel>(dto);
             return View(viewModel);
         }
         public ActionResult Index()
+        {
+            return View();
+        }
+        public ActionResult SubmitRecipe()
+        {
+            return View();
+        }
+        public ActionResult RecipeGrid()
+        {
+            return View();
+        }
+        public ActionResult RecipeDetails()
         {
             return View();
         }
@@ -50,13 +65,56 @@ namespace RecipeMVC.Controllers
         public ActionResult GetAll()
         {
             var response = _service.GetAll();
-            var viewModel = Mapper.Map<MenuViewModel>(response);
+            //var viewModel = Mapper.Map<MenuViewModel>(response);
+            var viewModel=_mapper.Map<List<RecipeViewModel>>(response);
+
             return View(viewModel);
+           
         }
 
-        public ActionResult Save(MenuViewModel model)
+        [HttpGet]
+        public ActionResult Edit(int id)
         {
-            var dto = Mapper.Map<MenuDTO>(model);
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            else
+            {
+                var t = _service.GetById(id);
+                var dto = _mapper.Map<SaveRecipeViewModel>(t);
+
+                return View(dto);
+            }
+        }
+        [HttpPost]
+        public ActionResult Edit(SaveRecipeViewModel model)
+        {
+
+            var view = _mapper.Map<RecipeDTO>(model);
+            //var dto = _mapper.Map<RecipeDTO>(view);
+            var response = _service.Save(view);
+            return Json(response);
+
+        }
+
+
+
+
+
+        [HttpGet]
+        public ActionResult Save()
+        {
+            return View();
+        }
+
+       [HttpPost]
+        public ActionResult Save(SaveRecipeViewModel model)
+        {
+            model.CategoryId = 4;
+            model.UserId = 1;
+
+            var dto = _mapper.Map<RecipeDTO>(model);
             var response = _service.Save(dto);
             return Json(response);
         }

@@ -19,7 +19,8 @@ namespace RecipeMVC
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             ServiceContainer container = new ServiceContainer();
-            ServiceConfig.Register(container);
+            UnityConfig.RegisterComponents();
+            //Class1.Register(container);
 
         }
     }

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace RecipeBLL.Service.Menu
 {
-    public class MenuService : IBaseService<MenuDTO>
+    public class MenuService : IBaseService<RecipeDTO>
     {
         private readonly IMenuRepository _repository;
 
@@ -18,13 +18,13 @@ namespace RecipeBLL.Service.Menu
         {
             _repository = repository;
         }
-        public ActionResponse<IQueryable<MenuDTO>> GetAll()
+        public ActionResponse<IQueryable<RecipeDTO>> GetAll()
         {
             var response = _repository.GetAll();
             return response;
         }
 
-        public ActionResponse<MenuDTO> GetById(int id)
+        public ActionResponse<RecipeDTO> GetById(int id)
         {
             var response = _repository.GetById(id);
             return response;
@@ -36,7 +36,7 @@ namespace RecipeBLL.Service.Menu
             return response;
         }
 
-        public ActionResponse Save(MenuDTO obj, int userId = 0)
+        public ActionResponse Save(RecipeDTO obj, int userId = 0)
         {
             try
             {

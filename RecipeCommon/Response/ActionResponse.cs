@@ -41,8 +41,6 @@ namespace RecipeCommon.Response
                 result.FailureResult = new string[0];
             }
 
-
-
         }
         public class ActionResponse<T> : ActionResponse
         {
@@ -57,13 +55,10 @@ namespace RecipeCommon.Response
 
             public static ActionResponse<T> Succeed(T data)
             {
-                var response = new ActionResponse<T>() { Data = data };
-                Succeed(data);
+                
+            var response = new ActionResponse<T>() { Data = data };
+                Succeed(response);
                 return response;
             }
-
-
-
-
         }
 }

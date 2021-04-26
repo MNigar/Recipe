@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RecipeBLL.Validators
 {
-    public class MenuValidator : AbstractValidator<MenuDTO>
+    public class MenuValidator : AbstractValidator<RecipeDTO>
     {
         public MenuValidator()
         {
